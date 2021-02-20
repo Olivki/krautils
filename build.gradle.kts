@@ -1,4 +1,3 @@
-import name.remal.gradle_plugins.dsl.extensions.api
 import name.remal.gradle_plugins.dsl.extensions.convention
 import name.remal.gradle_plugins.dsl.extensions.get
 import name.remal.gradle_plugins.dsl.extensions.testImplementation
