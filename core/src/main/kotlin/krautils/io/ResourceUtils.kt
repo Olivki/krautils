@@ -28,4 +28,13 @@ import kotlin.io.path.toPath
  */
 @ExperimentalPathApi
 @KrautilsExperimental
+public fun Class<*>.getResourceAsPath(name: String): Path? = this.getResource(name)?.toURI()?.toPath()
+
+/**
+ * Returns a path to the resource with the given [name], or `null` if none is found.
+ *
+ * @see [ClassLoader.getResource]
+ */
+@ExperimentalPathApi
+@KrautilsExperimental
 public fun ClassLoader.getResourceAsPath(name: String): Path? = this.getResource(name)?.toURI()?.toPath()
