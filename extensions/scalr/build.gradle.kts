@@ -1,4 +1,4 @@
-description = "Kotlin extensions for the Java Scalr library."
+description = "Kotlin extensions for the Java imgscalr library."
 version = "1.0.0"
 
 dependencies {
