@@ -1,6 +1,6 @@
 ## scalr
 
-![Maven Central](https://img.shields.io/maven-central/v/moe.kanon.krautils/krautils-scalr?style=for-the-badge) ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/moe.kanon.krautils/krautils-scalr?server=https%3A%2F%2Foss.sonatype.org&style=for-the-badge)
+![Maven Central](https://img.shields.io/maven-central/v/moe.kanon.krautils/krautils-scalr?label=release&style=for-the-badge) ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/moe.kanon.krautils/krautils-scalr?label=snapshot&server=https%3A%2F%2Foss.sonatype.org&style=for-the-badge)
 
 Kotlin extension functions for working with the Java [imgscalr](https://github.com/rkalla/imgscalr) library.
 
