@@ -18,8 +18,6 @@ repositories {
     mavenCentral()
 }
 
-// TODO: add maven publishing to the sub modules and stuff
-
 subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "name.remal.maven-publish-ossrh")
