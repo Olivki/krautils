@@ -10,7 +10,7 @@ Release
 
 ```kotlin
 dependencies {
-    implementation(group = "moe.kanon.krautils", name = "krautils-core", version = "${RELEASE_VERSION}")
+	implementation(group = "moe.kanon.krautils", name = "krautils-core", version = "${RELEASE_VERSION}")
 }
 ```
 
