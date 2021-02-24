@@ -30,9 +30,9 @@ subprojects {
     }
 
     dependencies {
-        testImplementation(kotlin("test-junit5"))
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+        testImplementation(group = "io.kotest", name = "kotest-runner-junit5", version = "4.4.1")
+        testImplementation(group = "io.kotest", name = "kotest-assertions-core", version = "4.4.1")
+        testImplementation(group = "io.kotest", name = "kotest-property", version = "4.4.1")
     }
 
     kotlin {
