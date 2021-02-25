@@ -6,7 +6,7 @@ import name.remal.gradle_plugins.plugins.publish.ossrh.RepositoryHandlerOssrhExt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.30"
+    kotlin("jvm") version "1.4.31"
     id("name.remal.maven-publish-ossrh") version "1.2.2"
     id("name.remal.check-dependency-updates") version "1.2.2"
     `maven-publish`
