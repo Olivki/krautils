@@ -1,5 +1,5 @@
 description = "Kotlin extensions for the Java Apache Commons Compress library."
-version = "0.0.1-SNAPSHOT"
+version = "0.0.2-SNAPSHOT"
 
 dependencies {
     api(group = "org.apache.commons", name = "commons-compress", version = "1.20")
