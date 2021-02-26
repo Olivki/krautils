@@ -93,9 +93,12 @@ public sealed class Compression {
         override fun decompressBytes(bytes: ByteArray): ByteArray = bytes.decompressWith(::LZMACompressorInputStream)
     }
 
+    @Pack200RemovalWarning
     public object Pack200 : Compression() {
+        @Pack200RemovalWarning
         override fun compressBytes(bytes: ByteArray): ByteArray = bytes.compressWith(::Pack200CompressorOutputStream)
 
+        @Pack200RemovalWarning
         override fun decompressBytes(bytes: ByteArray): ByteArray = bytes.decompressWith(::Pack200CompressorInputStream)
     }
 
