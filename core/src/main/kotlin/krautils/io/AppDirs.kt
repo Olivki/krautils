@@ -18,8 +18,8 @@
 
 package krautils.io
 
-import krautils.JvmProperties
-import krautils.JvmProperties.userHome
+import krautils.system.JvmProperties
+import krautils.system.JvmProperties.userHome
 import krautils.KrautilsExperimental
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
