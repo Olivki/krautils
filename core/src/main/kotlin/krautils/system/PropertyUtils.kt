@@ -36,7 +36,6 @@ public fun getProperty(key: String): String = getPropertyOrNull(key) ?: throw Mi
  * Returns the system property stored under the given [key], or [default] if none is found.
  *
  * @throws [IllegalArgumentException] if [key] is empty
- * @throws [MissingPropertyException] if no property is found for [key]
  *
  * @see [System.getProperty]
  */
