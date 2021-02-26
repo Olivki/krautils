@@ -32,104 +32,73 @@ package krautils.system
 public object JvmProperties {
     // TODO: add documentation of what the properties here do?
     // separators
-    public val fileSeparator: String by lazy { get("file.separator") }
+    public val fileSeparator: String by lazy { getProperty("file.separator") }
 
-    public val lineSeparator: String by lazy { get("line.separator") }
+    public val lineSeparator: String by lazy { getProperty("line.separator") }
 
-    public val pathSeparator: String by lazy { get("path.separator") }
+    public val pathSeparator: String by lazy { getProperty("path.separator") }
 
     // operating system
-    public val osArch: String by lazy { get("os.arch") }
+    public val osArch: String by lazy { getProperty("os.arch") }
 
-    public val osName: String by lazy { get("os.name") }
+    public val osName: String by lazy { getProperty("os.name") }
 
-    public val osVersion: String by lazy { get("os.version") }
+    public val osVersion: String by lazy { getProperty("os.version") }
 
     // user
-    public val userCountry: String by lazy { get("user.country") }
+    public val userCountry: String by lazy { getProperty("user.country") }
 
-    public val userCountryFormat: String by lazy { get("user.country.format") }
+    public val userCountryFormat: String by lazy { getProperty("user.country.format") }
 
-    public val userDir: String by lazy { get("user.dir") }
+    public val userDir: String by lazy { getProperty("user.dir") }
 
-    public val userHome: String by lazy { get("user.home") }
+    public val userHome: String by lazy { getProperty("user.home") }
 
-    public val userLanguage: String by lazy { get("user.language") }
+    public val userLanguage: String by lazy { getProperty("user.language") }
 
-    public val userLanguageFormat: String by lazy { get("user.language.format") }
+    public val userLanguageFormat: String by lazy { getProperty("user.language.format") }
 
-    public val userName: String by lazy { get("user.name") }
+    public val userName: String by lazy { getProperty("user.name") }
 
     // io
-    public val fileEncoding: String by lazy { get("file.encoding") }
+    public val fileEncoding: String by lazy { getProperty("file.encoding") }
 
-    public val tmpDir: String by lazy { get("java.io.tmpdir") }
+    public val tmpDir: String by lazy { getProperty("java.io.tmpdir") }
 
     // java specific
-    public val javaClassPath: String by lazy { get("java.class.path") }
+    public val javaClassPath: String by lazy { getProperty("java.class.path") }
 
-    public val javaClassVersion: String by lazy { get("java.class.version") }
+    public val javaClassVersion: String by lazy { getProperty("java.class.version") }
 
-    public val javaHome: String by lazy { get("java.home") }
+    public val javaHome: String by lazy { getProperty("java.home") }
 
-    public val javaRuntimeName: String by lazy { get("java.runtime.name") }
+    public val javaRuntimeName: String by lazy { getProperty("java.runtime.name") }
 
-    public val javaRuntimeVersion: String by lazy { get("java.runtime.version") }
+    public val javaRuntimeVersion: String by lazy { getProperty("java.runtime.version") }
 
-    public val javaSpecificationName: String by lazy { get("java.specification.name") }
+    public val javaSpecificationName: String by lazy { getProperty("java.specification.name") }
 
-    public val javaSpecificationVendor: String by lazy { get("java.specification.vendor") }
+    public val javaSpecificationVendor: String by lazy { getProperty("java.specification.vendor") }
 
-    public val javaSpecificationVersion: String by lazy { get("java.specification.version") }
+    public val javaSpecificationVersion: String by lazy { getProperty("java.specification.version") }
 
-    public val javaVendor: String by lazy { get("java.vendor") }
+    public val javaVendor: String by lazy { getProperty("java.vendor") }
 
-    public val javaVendorUrl: String by lazy { get("java.vendor.url") }
+    public val javaVendorUrl: String by lazy { getProperty("java.vendor.url") }
 
-    public val javaVendorUrlBug: String by lazy { get("java.vendor.url.bug") }
+    public val javaVendorUrlBug: String by lazy { getProperty("java.vendor.url.bug") }
 
-    public val javaVersion: String by lazy { get("java.version") }
+    public val javaVersion: String by lazy { getProperty("java.version") }
 
-    public val javaVmInfo: String by lazy { get("java.vm.info") }
+    public val javaVmInfo: String by lazy { getProperty("java.vm.info") }
 
-    public val javaVmName: String by lazy { get("java.vm.name") }
+    public val javaVmName: String by lazy { getProperty("java.vm.name") }
 
-    public val javaVmSpecificationName: String by lazy { get("java.vm.specification.name") }
+    public val javaVmSpecificationName: String by lazy { getProperty("java.vm.specification.name") }
 
-    public val javaVmSpecificationVendor: String by lazy { get("java.vm.specification.vendor") }
+    public val javaVmSpecificationVendor: String by lazy { getProperty("java.vm.specification.vendor") }
 
-    public val javaVmSpecificationVersion: String by lazy { get("java.vm.specification.version") }
+    public val javaVmSpecificationVersion: String by lazy { getProperty("java.vm.specification.version") }
 
-    public val javaVmVersion: String by lazy { get("java.vm.version") }
-
-    /**
-     * Returns the system property stored under the given [key], or throws a [NoSuchElementException] if none is
-     * found.
-     *
-     * @throws [IllegalArgumentException] if [key] is empty
-     *
-     * @see [System.getProperty]
-     */
-    public operator fun get(key: String): String =
-        System.getProperty(key) ?: throw NoSuchElementException("Unknown property '$key'")
-
-    /**
-     * Returns the system property stored under the given [key], or `null` if none is found.
-     *
-     * @throws [IllegalArgumentException] if [key] is empty
-     *
-     * @see [System.getProperty]
-     */
-    public fun getOrNull(key: String): String? = System.getProperty(key)
-
-    /**
-     * Sets the system property stored under the given [key] to [value].
-     *
-     * @throws [IllegalArgumentException] if [key] is empty.
-     *
-     * @see [System.setProperty]
-     */
-    public operator fun set(key: String, value: String) {
-        System.setProperty(key, value)
-    }
+    public val javaVmVersion: String by lazy { getProperty("java.vm.version") }
 }
