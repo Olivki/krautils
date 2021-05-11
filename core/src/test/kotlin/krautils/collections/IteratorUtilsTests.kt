@@ -21,29 +21,30 @@ import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.iterator.shouldHaveNext
 import io.kotest.matchers.iterator.shouldNotHaveNext
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.throwable.shouldHaveMessage
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.kotest.matchers.types.shouldNotBeInstanceOf
 
 class IteratorUtilsTests : ShouldSpec({
-    context("emptyIterator()") {
+    context("Invoking emptyIterator()") {
         should("return an empty iterator") {
             val iterator = emptyIterator<Unit>()
             iterator.shouldNotHaveNext()
             val exception = shouldThrow<UnsupportedOperationException> { iterator.next() }
-            exception.message shouldBe "Can't iterate over an empty iterator"
+            exception shouldHaveMessage  "Can't iterate over an empty iterator"
         }
     }
 
-    context("iteratorOf()") {
+    context("Invoking iteratorOf()") {
         should("return an empty iterator") {
             val iterator = iteratorOf<Unit>()
             iterator.shouldNotHaveNext()
             val exception = shouldThrow<UnsupportedOperationException> { iterator.next() }
-            exception.message shouldBe "Can't iterate over an empty iterator"
+            exception shouldHaveMessage "Can't iterate over an empty iterator"
         }
     }
 
-    context("iteratorOf(item)") {
+    context("Invoking iteratorOf(item)") {
         should("return a singleton iterator") {
             val item = Unit
             val iterator = iteratorOf(item)
@@ -56,7 +57,7 @@ class IteratorUtilsTests : ShouldSpec({
         }
     }
 
-    context("iteratorOf(...items)") {
+    context("Invoking iteratorOf(...items)") {
         should("return an iterator for the items") {
             val itemOne = 1
             val itemTwo = 2
@@ -77,7 +78,7 @@ class IteratorUtilsTests : ShouldSpec({
     //       test this, for now it's disabled. The way we create the unmodifiable view is also dependent on compiler
     //       intrinsics, so it's a bit wishy washy to test, as it depends on behavior that's not publicly defined and
     //       may be changed.
-    xcontext("iterator.asUnmodifiable()") {
+    xcontext("Invoking iterator.asUnmodifiable()") {
         should("return an unmodifiable view of the iterator") {
             val originalIterator = mutableListOf("hello").iterator()
             originalIterator.shouldBeInstanceOf<MutableIterator<*>>()
