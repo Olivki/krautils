@@ -1,7 +1,5 @@
 import name.remal.gradle_plugins.dsl.extensions.convention
 import name.remal.gradle_plugins.dsl.extensions.get
-import name.remal.gradle_plugins.dsl.extensions.testImplementation
-import name.remal.gradle_plugins.dsl.extensions.testRuntimeOnly
 import name.remal.gradle_plugins.plugins.publish.ossrh.RepositoryHandlerOssrhExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
