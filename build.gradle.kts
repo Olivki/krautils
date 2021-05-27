@@ -11,6 +11,7 @@ plugins {
 }
 
 val gitUrl = "github.com/Olivki/krautils"
+val kotestVersion: String by project
 
 repositories {
     mavenCentral()
@@ -28,9 +29,9 @@ subprojects {
     }
 
     dependencies {
-        testImplementation(group = "io.kotest", name = "kotest-runner-junit5", version = "4.4.1")
-        testImplementation(group = "io.kotest", name = "kotest-assertions-core", version = "4.4.1")
-        testImplementation(group = "io.kotest", name = "kotest-property", version = "4.4.1")
+        testImplementation(group = "io.kotest", name = "kotest-runner-junit5", version = kotestVersion)
+        testImplementation(group = "io.kotest", name = "kotest-assertions-core", version = kotestVersion)
+        testImplementation(group = "io.kotest", name = "kotest-property", version = kotestVersion)
     }
 
     kotlin {
