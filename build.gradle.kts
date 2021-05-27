@@ -10,7 +10,6 @@ plugins {
     `maven-publish`
 }
 
-val gitUrl = "github.com/Olivki/krautils"
 val kotestVersion: String by project
 
 repositories {
@@ -39,10 +38,10 @@ subprojects {
     }
 
     tasks {
-        withType<KotlinCompile>() {
-            with(kotlinOptions) {
+        compileKotlin {
+            kotlinOptions {
                 jvmTarget = "1.8"
-                freeCompilerArgs = listOf(
+                freeCompilerArgs = freeCompilerArgs + listOf(
                     "-Xuse-experimental=kotlin.Experimental",
                     "-Xuse-experimental=kotlin.contracts.ExperimentalContracts",
                     "-Xjvm-default=all"
@@ -60,7 +59,7 @@ subprojects {
             pom {
                 name.set("${project.group}:${project.name}")
                 description.set(project.description)
-                url.set(gitUrl)
+                url.set("https://github.com/Olivki/krautils")
 
                 licenses {
                     license {
@@ -78,9 +77,9 @@ subprojects {
                 }
 
                 scm {
-                    connection.set("scm:git:git://${gitUrl}.git")
-                    developerConnection.set("scm:git:ssh://${gitUrl}.git")
-                    url.set("https://$gitUrl")
+                    connection.set("scm:git:git://github.com/Olivki/krautils.git")
+                    developerConnection.set("scm:git:ssh://github.com/Olivki/krautils.git")
+                    url.set("https://github.com/Olivki/krautils")
                 }
             }
         }
