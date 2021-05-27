@@ -14,152 +14,185 @@
  * limitations under the License.
  */
 
-@file:JvmName("AppDirs")
-
 package krautils.io
 
+import krautils.KrautilsExperimental
 import krautils.system.JvmProperties
 import krautils.system.JvmProperties.userHome
-import krautils.KrautilsExperimental
+import krautils.system.getEnv
 import java.nio.file.Path
-import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.Path
 import kotlin.io.path.createDirectories
 
 // inspired by https://github.com/harawata/appdirs and https://github.com/erayerdin/kappdirs
 
+// TODO: documentation
 @KrautilsExperimental
-private sealed class AppDirsFactory {
-    companion object {
-        fun create(): AppDirsFactory {
-            val os = JvmProperties.osName.toLowerCase()
-            return when {
+public sealed class AppDirs {
+    /**
+     * A [AppDirs] implementation that delegates to [MacOsX], [Unix] or [Windows] depending on the current
+     * [osName][JvmProperties.osName].
+     */
+    @KrautilsExperimental
+    public companion object Default : AppDirs() {
+        internal val instance: AppDirs by lazy {
+            val os = JvmProperties.osName.lowercase()
+            when {
                 os.startsWith("windows") -> Windows
                 os.startsWith("mac os x") -> MacOsX
                 // assume it's some *nix based system
                 else -> Unix
             }
         }
+
+        override fun getUserDataDirectory(roaming: Boolean): Path = instance.getUserDataDirectory(roaming)
+
+        override fun getUserConfigDirectory(roaming: Boolean): Path = instance.getUserConfigDirectory(roaming)
+
+        override fun getUserCacheDirectory(): Path = instance.getUserCacheDirectory()
+
+        override fun getUserLogDirectory(): Path = instance.getUserLogDirectory()
+
+        override fun getSiteDataDirectory(local: Boolean): Path = instance.getSiteDataDirectory(local)
+
+        override fun getSiteConfigDirectory(): Path = instance.getSiteConfigDirectory()
     }
 
-    abstract fun getUserDataDir(name: String, roaming: Boolean): Path
+    /**
+     * Returns the user data directory of the operating system.
+     *
+     * @param [roaming] whether or not the directory should be created in the `roaming` directory *(only used
+     * on Windows systems)*
+     */
+    @KrautilsExperimental
+    public abstract fun getUserDataDirectory(roaming: Boolean): Path
 
-    abstract fun getUserConfigDir(name: String, roaming: Boolean): Path
+    /**
+     * Returns the user config directory of the operating system.
+     *
+     * @param [roaming] whether or not the directory should be created in the `roaming` directory *(only used
+     * on Windows systems)*
+     */
+    @KrautilsExperimental
+    public abstract fun getUserConfigDirectory(roaming: Boolean): Path
 
-    abstract fun getUserCacheDir(name: String): Path
+    /**
+     * Returns the user cache directory of the operating system.
+     */
+    @KrautilsExperimental
+    public abstract fun getUserCacheDirectory(): Path
 
-    abstract fun getUserLogDir(name: String): Path
+    /**
+     * Returns the user log directory of the operating system.
+     */
+    @KrautilsExperimental
+    public abstract fun getUserLogDirectory(): Path
 
-    abstract fun getSiteDataDir(name: String, local: Boolean): Path
+    /**
+     * Returns the site data directory of the operating system.
+     */
+    @KrautilsExperimental
+    public abstract fun getSiteDataDirectory(local: Boolean): Path
 
-    abstract fun getSiteConfigDir(name: String): Path
+    /**
+     * Returns the site config directory of the operating system.
+     */
+    @KrautilsExperimental
+    public abstract fun getSiteConfigDirectory(): Path
 
-    private object MacOsX : AppDirsFactory() {
-        override fun getUserDataDir(name: String, roaming: Boolean): Path =
-            Path(userHome, "Library", "Application Support", name)
+    /**
+     * Implementation for MacOsX systems.
+     */
+    @KrautilsExperimental
+    public object MacOsX : AppDirs() {
+        override fun getUserDataDirectory(roaming: Boolean): Path =
+            Path(userHome, "Library", "Application Support")
 
-        override fun getUserConfigDir(name: String, roaming: Boolean): Path = getUserDataDir(name, roaming)
+        override fun getUserConfigDirectory(roaming: Boolean): Path = getUserDataDirectory(roaming)
 
-        override fun getUserCacheDir(name: String): Path = Path(userHome, "Library", "Caches", name)
+        override fun getUserCacheDirectory(): Path = Path(userHome, "Library", "Caches")
 
-        override fun getUserLogDir(name: String): Path = Path(userHome, "Library", "Logs", name)
+        override fun getUserLogDirectory(): Path = Path(userHome, "Library", "Logs")
 
-        override fun getSiteDataDir(name: String, local: Boolean): Path =
-            Path("/", "Library", "Application Support", name)
+        override fun getSiteDataDirectory(local: Boolean): Path =
+            Path("/", "Library", "Application Support")
 
-        override fun getSiteConfigDir(name: String): Path = getSiteDataDir(name, false)
+        override fun getSiteConfigDirectory(): Path = getSiteDataDirectory(false)
     }
 
-    private object Unix : AppDirsFactory() {
-        override fun getUserDataDir(name: String, roaming: Boolean): Path = Path(userHome, ".local", "share", name)
+    /**
+     * Implementation for *nix based systems.
+     */
+    @KrautilsExperimental
+    public object Unix : AppDirs() {
+        override fun getUserDataDirectory(roaming: Boolean): Path = Path(userHome, ".local", "share")
 
-        override fun getUserConfigDir(name: String, roaming: Boolean): Path = Path(userHome, ".config", name)
+        override fun getUserConfigDirectory(roaming: Boolean): Path = Path(userHome, ".config")
 
-        override fun getUserCacheDir(name: String): Path = Path(userHome, ".cache", name)
+        override fun getUserCacheDirectory(): Path = Path(userHome, ".cache")
 
-        override fun getUserLogDir(name: String): Path = Path(userHome, ".cache", name, "logs")
+        override fun getUserLogDirectory(): Path = Path(userHome, ".cache", "logs")
 
-        override fun getSiteDataDir(name: String, local: Boolean): Path = when {
-            local -> Path("/", "usr", "local", "share", name)
-            else -> Path("/", "usr", "share", name)
+        override fun getSiteDataDirectory(local: Boolean): Path = when {
+            local -> Path("/", "usr", "local", "share")
+            else -> Path("/", "usr", "share")
         }
 
-        override fun getSiteConfigDir(name: String): Path = Path("/", "etc", name)
+        override fun getSiteConfigDirectory(): Path = Path("/", "etc")
     }
 
-    private object Windows : AppDirsFactory() {
+    /**
+     * Implementation for Windows systems.
+     */
+    @KrautilsExperimental
+    public object Windows : AppDirs() {
         // lazy so that we don't encounter any exceptions when this instance is created
         private val appData by lazy { getEnv("APPDATA") }
         private val localAppData by lazy { getEnv("LOCALAPPDATA") }
         private val programData by lazy { getEnv("PROGRAMDATA") }
 
-        private fun getEnv(name: String): String =
-            System.getenv(name) ?: throw NoSuchElementException("Could not find environment variable '$name'")
+        override fun getUserDataDirectory(roaming: Boolean): Path = Path(if (roaming) appData else localAppData)
 
-        override fun getUserDataDir(name: String, roaming: Boolean): Path =
-            Path(if (roaming) appData else localAppData, name)
+        override fun getUserConfigDirectory(roaming: Boolean): Path = getUserDataDirectory(roaming)
 
-        override fun getUserConfigDir(name: String, roaming: Boolean): Path = getUserDataDir(name, roaming)
+        override fun getUserCacheDirectory(): Path = Path(localAppData)
 
-        override fun getUserCacheDir(name: String): Path = Path(localAppData, name, "Cache")
+        override fun getUserLogDirectory(): Path = Path(localAppData)
 
-        override fun getUserLogDir(name: String): Path = Path(localAppData, name, "Logs")
+        override fun getSiteDataDirectory(local: Boolean): Path = Path(programData)
 
-        override fun getSiteDataDir(name: String, local: Boolean): Path = Path(programData, name)
-
-        override fun getSiteConfigDir(name: String): Path = getSiteDataDir(name, false)
+        override fun getSiteConfigDirectory(): Path = getSiteDataDirectory(false)
     }
 }
 
-@KrautilsExperimental
-private val factory: AppDirsFactory by lazy { AppDirsFactory.create() }
+// TODO: documentation
 
-// TODO: improve the documentation
-
-/**
- * Returns a newly created [Path] instance pointing to a `directory` made using the given [name], the directory is
- * located in the current operating systems user data directory.
- *
- * @param [name] the name of the application to create the directory for
- * @param [roaming] whether or not the directory should be created in the `roaming` directory *(only used on Windows)*
- *
- * @return the newly created directory
- */
 @KrautilsExperimental
-public fun createDataDirectory(name: String, roaming: Boolean = true): Path =
-    factory.getUserDataDir(name, roaming).createDirectories()
+public fun AppDirs.createUserDataDirectory(name: String, roaming: Boolean): Path =
+    getUserDataDirectory(roaming).resolve(name).createDirectories()
 
-/**
- * Returns a newly created [Path] instance pointing to a `directory` made using the given [name], the directory is
- * located in the current operating systems user config directory.
- *
- * @param [name] the name of the application to create the directory for
- * @param [roaming] whether or not the directory should be created in the `roaming` directory *(only used on Windows)*
- *
- * @return the newly created directory
- */
 @KrautilsExperimental
-public fun createConfigDirectory(name: String, roaming: Boolean = true): Path =
-    factory.getUserConfigDir(name, roaming).createDirectories()
+public fun AppDirs.createUserConfigDirectory(name: String, roaming: Boolean): Path =
+    getUserConfigDirectory(roaming).resolve(name).createDirectories()
 
-/**
- * Returns a newly created [Path] instance pointing to a `directory` made using the given [name], the directory is
- * located in the current operating systems user cache directory.
- *
- * @param [name] the name of the application to create the directory for
- *
- * @return the newly created directory
- */
 @KrautilsExperimental
-public fun createCacheDirectory(name: String): Path = factory.getUserCacheDir(name).createDirectories()
+public fun AppDirs.createUserCacheDirectory(name: String): Path = when (this) {
+    is AppDirs.Default -> instance.createUserCacheDirectory(name)
+    AppDirs.MacOsX, AppDirs.Unix -> getUserCacheDirectory().resolve(name).createDirectories()
+    AppDirs.Windows -> getUserCacheDirectory().resolve(name).resolve("Cache").createDirectories()
+}
 
-/**
- * Returns a newly created [Path] instance pointing to a `directory` made using the given [name], the directory is
- * located in the current operating systems user log directory.
- *
- * @param [name] the name of the application to create the directory for
- *
- * @return the newly created directory
- */
 @KrautilsExperimental
-public fun createLogDirectory(name: String): Path = factory.getUserLogDir(name).createDirectories()
+public fun AppDirs.createUserLogDirectory(name: String): Path = when (this) {
+    is AppDirs.Default -> instance.createUserLogDirectory(name)
+    AppDirs.MacOsX, AppDirs.Unix -> getUserLogDirectory().resolve(name).createDirectories()
+    AppDirs.Windows -> getUserLogDirectory().resolve(name).resolve("Logs").createDirectories()
+}
+
+@KrautilsExperimental
+public fun AppDirs.createSiteDataDirectory(name: String, local: Boolean): Path =
+    getSiteDataDirectory(local).resolve(name).createDirectories()
+
+@KrautilsExperimental
+public fun AppDirs.createSiteConfigDirectory(name: String): Path =
+    getSiteConfigDirectory().resolve(name).createDirectories()
