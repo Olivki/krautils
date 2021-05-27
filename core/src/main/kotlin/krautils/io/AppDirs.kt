@@ -17,12 +17,15 @@
 package krautils.io
 
 import krautils.KrautilsExperimental
+import krautils.io.AppDirs.Default.instance
 import krautils.system.JvmProperties
 import krautils.system.JvmProperties.userHome
 import krautils.system.getEnv
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.io.path.createDirectories
+import kotlin.io.path.notExists
+import kotlin.io.path.useLines
 
 // inspired by https://github.com/harawata/appdirs and https://github.com/erayerdin/kappdirs
 
@@ -45,6 +48,18 @@ public sealed class AppDirs {
             }
         }
 
+        override fun getDownloadsDirectory(): Path = instance.getDownloadsDirectory()
+
+        override fun getDesktopDirectory(): Path = instance.getDesktopDirectory()
+
+        override fun getDocumentsDirectory(): Path = instance.getDocumentsDirectory()
+
+        override fun getMusicDirectory(): Path = instance.getMusicDirectory()
+
+        override fun getPicturesDirectory(): Path = instance.getPicturesDirectory()
+
+        override fun getVideosDirectory(): Path = instance.getVideosDirectory()
+
         override fun getUserDataDirectory(roaming: Boolean): Path = instance.getUserDataDirectory(roaming)
 
         override fun getUserConfigDirectory(roaming: Boolean): Path = instance.getUserConfigDirectory(roaming)
@@ -57,6 +72,42 @@ public sealed class AppDirs {
 
         override fun getSiteConfigDirectory(): Path = instance.getSiteConfigDirectory()
     }
+
+    /**
+     * Returns the downloads directory of the current user.
+     */
+    @KrautilsExperimental
+    public abstract fun getDownloadsDirectory(): Path
+
+    /**
+     * Returns the desktop directory of the current user.
+     */
+    @KrautilsExperimental
+    public abstract fun getDesktopDirectory(): Path
+
+    /**
+     * Returns the documents directory of the current user.
+     */
+    @KrautilsExperimental
+    public abstract fun getDocumentsDirectory(): Path
+
+    /**
+     * Returns the music directory of the current user.
+     */
+    @KrautilsExperimental
+    public abstract fun getMusicDirectory(): Path
+
+    /**
+     * Returns the pictures directory of the current user.
+     */
+    @KrautilsExperimental
+    public abstract fun getPicturesDirectory(): Path
+
+    /**
+     * Returns the videos directory of the current user.
+     */
+    @KrautilsExperimental
+    public abstract fun getVideosDirectory(): Path
 
     /**
      * Returns the user data directory of the operating system.
@@ -105,6 +156,18 @@ public sealed class AppDirs {
      */
     @KrautilsExperimental
     public object MacOsX : AppDirs() {
+        override fun getDownloadsDirectory(): Path = Path(userHome, "Downloads")
+
+        override fun getDesktopDirectory(): Path = Path(userHome, "Desktop")
+
+        override fun getDocumentsDirectory(): Path = Path(userHome, "Documents")
+
+        override fun getMusicDirectory(): Path = Path(userHome, "Music")
+
+        override fun getPicturesDirectory(): Path = Path(userHome, "Pictures")
+
+        override fun getVideosDirectory(): Path = Path(userHome, "Videos")
+
         override fun getUserDataDirectory(roaming: Boolean): Path =
             Path(userHome, "Library", "Application Support")
 
@@ -125,6 +188,18 @@ public sealed class AppDirs {
      */
     @KrautilsExperimental
     public object Unix : AppDirs() {
+        override fun getDownloadsDirectory(): Path = XdgUserDirs.XDG_DOWNLOAD_DIR.path
+
+        override fun getDesktopDirectory(): Path = XdgUserDirs.XDG_DESKTOP_DIR.path
+
+        override fun getDocumentsDirectory(): Path = XdgUserDirs.XDG_DOCUMENTS_DIR.path
+
+        override fun getMusicDirectory(): Path = XdgUserDirs.XDG_MUSIC_DIR.path
+
+        override fun getPicturesDirectory(): Path = XdgUserDirs.XDG_PICTURES_DIR.path
+
+        override fun getVideosDirectory(): Path = XdgUserDirs.XDG_VIDEOS_DIR.path
+
         override fun getUserDataDirectory(roaming: Boolean): Path = Path(userHome, ".local", "share")
 
         override fun getUserConfigDirectory(roaming: Boolean): Path = Path(userHome, ".config")
@@ -139,6 +214,41 @@ public sealed class AppDirs {
         }
 
         override fun getSiteConfigDirectory(): Path = Path("/", "etc")
+
+        // based on https://github.com/erayerdin/kappdirs/blob/master/src/main/kotlin/io/github/erayerdin/kappdirs/appdirs/UnixAppDirs.kt#L79
+        // the code has been cleaned up and made more "idiomatic"
+        private enum class XdgUserDirs(defaultPath: Path) {
+            XDG_DOWNLOAD_DIR(Path(userHome, "Downloads")),
+            XDG_DESKTOP_DIR(Path(userHome, "Desktop")),
+            XDG_DOCUMENTS_DIR(Path(userHome, "Documents")),
+            XDG_MUSIC_DIR(Path(userHome, "Music")),
+            XDG_PICTURES_DIR(Path(userHome, "Pictures")),
+            XDG_VIDEOS_DIR(Path(userHome, "Videos"));
+
+            private companion object {
+                val userDirConfig: Path by lazy { Path(userHome, ".config", "user-dirs.dirs") }
+            }
+
+            val path: Path by lazy {
+                return@lazy when {
+                    userDirConfig.notExists() -> defaultPath
+                    else -> userDirConfig.useLines { lines ->
+                        lines.map(String::trim)
+                            .filter { it.startsWith(name) }
+                            .map(this::parsePath)
+                            .lastOrNull() ?: defaultPath
+                    }
+                }
+            }
+
+            private fun parsePath(text: String): Path = text.split('=')[1]
+                .drop(1)
+                .dropLast(1)
+                .splitToSequence(JvmProperties.fileSeparator)
+                .toMutableList()
+                .also { it.remove("\$HOME") }
+                .fold(Path(userHome)) { parent, path -> parent.resolve(path) }
+        }
     }
 
     /**
@@ -150,6 +260,18 @@ public sealed class AppDirs {
         private val appData by lazy { getEnv("APPDATA") }
         private val localAppData by lazy { getEnv("LOCALAPPDATA") }
         private val programData by lazy { getEnv("PROGRAMDATA") }
+
+        override fun getDownloadsDirectory(): Path = Path(userHome, "Downloads")
+
+        override fun getDesktopDirectory(): Path = Path(userHome, "Desktop")
+
+        override fun getDocumentsDirectory(): Path = Path(userHome, "My Documents")
+
+        override fun getMusicDirectory(): Path = Path(userHome, "My Music")
+
+        override fun getPicturesDirectory(): Path = Path(userHome, "My Pictures")
+
+        override fun getVideosDirectory(): Path = Path(userHome, "My Videos")
 
         override fun getUserDataDirectory(roaming: Boolean): Path = Path(if (roaming) appData else localAppData)
 
@@ -166,6 +288,26 @@ public sealed class AppDirs {
 }
 
 // TODO: documentation
+
+@KrautilsExperimental
+public fun AppDirs.createDownloadsDirectory(name: String): Path =
+    getDownloadsDirectory().resolve(name).createDirectories()
+
+@KrautilsExperimental
+public fun AppDirs.createDesktopDirectory(name: String): Path =
+    getDesktopDirectory().resolve(name).createDirectories()
+
+@KrautilsExperimental
+public fun AppDirs.createDocumentsDirectory(name: String): Path =
+    getDocumentsDirectory().resolve(name).createDirectories()
+
+@KrautilsExperimental
+public fun AppDirs.createPicturesDirectory(name: String): Path =
+    getPicturesDirectory().resolve(name).createDirectories()
+
+@KrautilsExperimental
+public fun AppDirs.createVideosDirectory(name: String): Path =
+    getVideosDirectory().resolve(name).createDirectories()
 
 @KrautilsExperimental
 public fun AppDirs.createUserDataDirectory(name: String, roaming: Boolean): Path =
