@@ -25,7 +25,6 @@ import kotlin.io.path.isRegularFile
 /**
  * Compares whether the [Path] instances are a regular file, or a directory.
  */
-@ExperimentalPathApi
 public object FileDirectoryComparator : Comparator<Path> {
     override fun compare(o1: Path, o2: Path): Int = when {
         o1.isDirectory() && o2.isRegularFile() -> -1

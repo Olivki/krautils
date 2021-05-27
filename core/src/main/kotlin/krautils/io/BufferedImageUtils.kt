@@ -64,7 +64,6 @@ public fun createBufferedImage(width: Int, height: Int, color: Color = Color.BLA
  * @see [ImageIO.createImageInputStream]
  */
 @JvmOverloads
-@ExperimentalPathApi
 @JvmName("newImageInputStream")
 public fun Path.imageInputStream(vararg options: OpenOption = arrayOf(READ)): ImageInputStream =
     inputStream(*options).use { ImageIO.createImageInputStream(it) }
@@ -79,7 +78,6 @@ public fun Path.imageInputStream(vararg options: OpenOption = arrayOf(READ)): Im
  * @see [ImageIO.createImageInputStream]
  */
 @JvmOverloads
-@ExperimentalPathApi
 @JvmName("newImageOutputStream")
 public fun Path.imageOutputStream(
     vararg options: OpenOption = arrayOf(CREATE, WRITE, TRUNCATE_EXISTING),
@@ -95,10 +93,9 @@ public fun Path.imageOutputStream(
  * @see [ImageIO.write]
  */
 @JvmOverloads
-@ExperimentalPathApi
 public fun BufferedImage.writeTo(
     file: Path,
-    format: String = file.extension?.toLowerCase() ?: DEFAULT_FORMAT,
+    format: String = file.extension?.lowercase() ?: DEFAULT_FORMAT,
     vararg options: OpenOption = arrayOf(CREATE, WRITE, TRUNCATE_EXISTING),
 ): Boolean = file.outputStream(*options).use { ImageIO.write(this, format, it) }
 

@@ -64,7 +64,6 @@ private val DATE_TIME_DIRECTORY_FORMATTER: DateTimeFormatter = DateTimeFormatter
  * an incorrect extension depending on how the extension is formed, but for the vast majority of file extensions, it
  * should be correct.
  */
-@ExperimentalPathApi
 public val Path.extension: String?
     get() = if (hasExtension(this)) name.substringAfterLast('.') else null
 
@@ -72,11 +71,9 @@ public val Path.extension: String?
  * Returns the [name][Path.name] of the file with its [extension][Path.extension] removed, or `name` if the file has
  * no `extension`.
  */
-@ExperimentalPathApi
 public val Path.simpleName: String
     get() = if (hasExtension(this)) name.substringBeforeLast('.') else name
 
-@ExperimentalPathApi
 private fun hasExtension(path: Path): Boolean = when {
     path.isDirectory() -> false
     else -> path.name.let { '.' in it && !it.startsWith('.') && it.lastIndexOf('.') != it.lastIndex }
@@ -92,7 +89,6 @@ private fun hasExtension(path: Path): Boolean = when {
  *
  * @see [Files.newDirectoryStream]
  */
-@ExperimentalPathApi
 public fun Path.directoryStream(glob: String = DEFAULT_GLOB): DirectoryStream<Path> =
     Files.newDirectoryStream(this, glob)
 
@@ -105,7 +101,6 @@ public fun Path.directoryStream(glob: String = DEFAULT_GLOB): DirectoryStream<Pa
  *
  * @see [Files.walkFileTree]
  */
-@ExperimentalPathApi
 public fun Path.walkFileTree(
     options: Set<FileVisitOption> = emptySet(),
     maxDepth: Int = Int.MAX_VALUE,
@@ -121,7 +116,6 @@ public fun Path.walkFileTree(
  *
  * @see [Files.walk]
  */
-@ExperimentalPathApi
 public inline fun <T> Path.walk(
     maxDepth: Int = Int.MAX_VALUE,
     vararg options: FileVisitOption,
@@ -135,7 +129,6 @@ public inline fun <T> Path.walk(
  *
  * @throws [NotDirectoryException] if the file is not a directory
  */
-@ExperimentalPathApi
 public fun Path.directorySize(): BigInteger {
     if (!isDirectory()) {
         throw NotDirectoryException(toString())
@@ -170,7 +163,6 @@ public fun Path.directorySize(): BigInteger {
  *
  * @see [Files.createDirectories]
  */
-@ExperimentalPathApi
 public fun Path.createDateDirectories(date: LocalDate = LocalDate.now()): Path {
     if (!isDirectory()) {
         throw NotDirectoryException(toString())
@@ -194,7 +186,6 @@ public fun Path.createDateDirectories(date: LocalDate = LocalDate.now()): Path {
  *
  * @see [Files.createDirectories]
  */
-@ExperimentalPathApi
 public fun Path.createDateTimeDirectories(date: LocalDate = LocalDate.now()): Path {
     if (!isDirectory()) {
         throw NotDirectoryException(toString())
@@ -208,7 +199,6 @@ public fun Path.createDateTimeDirectories(date: LocalDate = LocalDate.now()): Pa
  *
  * @see [Path.moveTo]
  */
-@ExperimentalPathApi
 public fun Path.renameTo(name: String, vararg options: CopyOption): Path = moveTo(resolveSibling(name), *options)
 
 /**
@@ -216,7 +206,6 @@ public fun Path.renameTo(name: String, vararg options: CopyOption): Path = moveT
  *
  * @see [Path.moveTo]
  */
-@ExperimentalPathApi
 public fun Path.renameTo(name: String, overwrite: Boolean = false): Path {
     val options = if (overwrite) arrayOf(REPLACE_EXISTING) else emptyArray()
     return moveTo(resolveSibling(name), *options)
@@ -231,7 +220,6 @@ public fun Path.renameTo(name: String, overwrite: Boolean = false): Path {
  *
  * @see [Files.copy]
  */
-@ExperimentalPathApi
 public fun Path.copyTo(outputStream: OutputStream): Long = Files.copy(this, outputStream)
 
 /**
@@ -240,7 +228,6 @@ public fun Path.copyTo(outputStream: OutputStream): Long = Files.copy(this, outp
  *
  * @throws [IOException] if an I/O erorr occurs
  */
-@ExperimentalPathApi
 public fun Path.touch(): Path {
     if (exists()) {
         setLastModifiedTime(FileTime.fromMillis(System.currentTimeMillis()))

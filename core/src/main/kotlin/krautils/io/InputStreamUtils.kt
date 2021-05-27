@@ -35,7 +35,6 @@ import kotlin.io.path.ExperimentalPathApi
  *
  * @see [Files.copy]
  */
-@ExperimentalPathApi
 public fun InputStream.copyTo(file: Path, vararg options: CopyOption): Long = Files.copy(this, file, *options)
 
 /**
@@ -47,7 +46,6 @@ public fun InputStream.copyTo(file: Path, vararg options: CopyOption): Long = Fi
  *
  * @see [Files.copy]
  */
-@ExperimentalPathApi
 public fun InputStream.copyTo(file: Path, overwrite: Boolean = false): Long {
     val options = if (overwrite) arrayOf(REPLACE_EXISTING) else emptyArray()
     return Files.copy(this, file, *options)

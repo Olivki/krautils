@@ -28,7 +28,6 @@ import kotlin.io.path.createDirectories
 
 // inspired by https://github.com/harawata/appdirs and https://github.com/erayerdin/kappdirs
 
-@ExperimentalPathApi
 @KrautilsExperimental
 private sealed class AppDirsFactory {
     companion object {
@@ -112,7 +111,6 @@ private sealed class AppDirsFactory {
     }
 }
 
-@ExperimentalPathApi
 @KrautilsExperimental
 private val factory: AppDirsFactory by lazy { AppDirsFactory.create() }
 
@@ -127,7 +125,6 @@ private val factory: AppDirsFactory by lazy { AppDirsFactory.create() }
  *
  * @return the newly created directory
  */
-@ExperimentalPathApi
 @KrautilsExperimental
 public fun createDataDirectory(name: String, roaming: Boolean = true): Path =
     factory.getUserDataDir(name, roaming).createDirectories()
@@ -141,7 +138,6 @@ public fun createDataDirectory(name: String, roaming: Boolean = true): Path =
  *
  * @return the newly created directory
  */
-@ExperimentalPathApi
 @KrautilsExperimental
 public fun createConfigDirectory(name: String, roaming: Boolean = true): Path =
     factory.getUserConfigDir(name, roaming).createDirectories()
@@ -154,7 +150,6 @@ public fun createConfigDirectory(name: String, roaming: Boolean = true): Path =
  *
  * @return the newly created directory
  */
-@ExperimentalPathApi
 @KrautilsExperimental
 public fun createCacheDirectory(name: String): Path = factory.getUserCacheDir(name).createDirectories()
 
@@ -166,6 +161,5 @@ public fun createCacheDirectory(name: String): Path = factory.getUserCacheDir(na
  *
  * @return the newly created directory
  */
-@ExperimentalPathApi
 @KrautilsExperimental
 public fun createLogDirectory(name: String): Path = factory.getUserLogDir(name).createDirectories()

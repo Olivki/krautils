@@ -26,7 +26,6 @@ import kotlin.io.path.toPath
  *
  * @see [ClassLoader.getResource]
  */
-@ExperimentalPathApi
 @KrautilsExperimental
 public fun Class<*>.getResourceAsPath(name: String): Path? = this.getResource(name)?.toURI()?.toPath()
 
@@ -35,6 +34,5 @@ public fun Class<*>.getResourceAsPath(name: String): Path? = this.getResource(na
  *
  * @see [ClassLoader.getResource]
  */
-@ExperimentalPathApi
 @KrautilsExperimental
 public fun ClassLoader.getResourceAsPath(name: String): Path? = this.getResource(name)?.toURI()?.toPath()
