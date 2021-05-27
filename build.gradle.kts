@@ -1,12 +1,11 @@
 import name.remal.gradle_plugins.dsl.extensions.convention
 import name.remal.gradle_plugins.dsl.extensions.get
 import name.remal.gradle_plugins.plugins.publish.ossrh.RepositoryHandlerOssrhExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.5.10"
-    id("name.remal.maven-publish-ossrh") version "1.2.2"
-    id("name.remal.check-dependency-updates") version "1.2.2"
+    id("name.remal.maven-publish-ossrh") version "1.3.1"
+    id("name.remal.check-dependency-updates") version "1.3.1"
     `maven-publish`
 }
 
