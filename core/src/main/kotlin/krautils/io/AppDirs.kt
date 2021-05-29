@@ -156,6 +156,10 @@ public sealed class AppDirs {
      */
     @KrautilsExperimental
     public object MacOsX : AppDirs() {
+        // according to this SO answer https://stackoverflow.com/questions/567874/how-do-i-find-the-users-documents-folder-with-java-in-os-x#comment379566_567902
+        // the localization should only be for displaying it, and doesn't actually change the "physical" files name
+        // so this code should work, however, the apple page he links to doesn't exist anymore, so I'm not 100% certain
+
         override fun getDownloadsDirectory(): Path = Path(userHome, "Downloads")
 
         override fun getDesktopDirectory(): Path = Path(userHome, "Desktop")
