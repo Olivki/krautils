@@ -1,4 +1,4 @@
-include("core", "extensions:scalr", "extensions:compress")
+include("codegen", "core", "extensions:scalr", "extensions:compress")
 
 rootProject.name = "krautils"
 

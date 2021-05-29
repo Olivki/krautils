@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+@file:JvmMultifileClass
+@file:JvmName("ArrayUtils")
+
 package krautils.collections
 
 /**
@@ -53,87 +56,9 @@ public inline fun <K, V, M : MutableMap<in K, in V>> Array<K>.associateWithTo(
  */
 public inline fun <T, R> Array<T>.mapTo(destination: Array<R>, transform: (T) -> R): Array<R> {
     require(this.size <= destination.size) { "this.size <= target.size" }
-    for ((i, e) in withIndex()) destination[i] = transform(e)
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to the
- * given [destination].
- */
-public inline fun <T> Array<T>.mapTo(destination: BooleanArray, transform: (T) -> Boolean): BooleanArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-    for ((i, e) in withIndex()) destination[i] = transform(e)
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to the
- * given [destination].
- */
-public inline fun <T> Array<T>.mapTo(destination: CharArray, transform: (T) -> Char): CharArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-    for ((i, e) in withIndex()) destination[i] = transform(e)
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to the
- * given [destination].
- */
-public inline fun <T> Array<T>.mapTo(destination: ByteArray, transform: (T) -> Byte): ByteArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-    for ((i, e) in withIndex()) destination[i] = transform(e)
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to the
- * given [destination].
- */
-public inline fun <T> Array<T>.mapTo(destination: ShortArray, transform: (T) -> Short): ShortArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-    for ((i, e) in withIndex()) destination[i] = transform(e)
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to the
- * given [destination].
- */
-public inline fun <T> Array<T>.mapTo(destination: IntArray, transform: (T) -> Int): IntArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-    for ((i, e) in withIndex()) destination[i] = transform(e)
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to the
- * given [destination].
- */
-public inline fun <T> Array<T>.mapTo(destination: LongArray, transform: (T) -> Long): LongArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-    for ((i, e) in withIndex()) destination[i] = transform(e)
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to the
- * given [destination].
- */
-public inline fun <T> Array<T>.mapTo(destination: FloatArray, transform: (T) -> Float): FloatArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-    for ((i, e) in withIndex()) destination[i] = transform(e)
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to the
- * given [destination].
- */
-public inline fun <T> Array<T>.mapTo(destination: DoubleArray, transform: (T) -> Double): DoubleArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-    for ((i, e) in withIndex()) destination[i] = transform(e)
+    for ((i, e) in this.withIndex()) {
+        destination[i] = transform(e)
+    }
     return destination
 }
 
@@ -144,61 +69,6 @@ public inline fun <T> Array<T>.mapTo(destination: DoubleArray, transform: (T) ->
  */
 public inline fun <T, reified R> Array<T>.mapToTypedArray(transform: (T) -> R): Array<R> =
     mapTo(createArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to a
- * newly created [BooleanArray].
- */
-public inline fun <T> Array<T>.mapToBooleanArray(transform: (T) -> Boolean): BooleanArray =
-    mapTo(BooleanArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to a
- * newly created [CharArray].
- */
-public inline fun <T> Array<T>.mapToCharArray(transform: (T) -> Char): CharArray =
-    mapTo(CharArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to a
- * newly created [ByteArray].
- */
-public inline fun <T> Array<T>.mapToByteArray(transform: (T) -> Byte): ByteArray =
-    mapTo(ByteArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to a
- * newly created [ShortArray].
- */
-public inline fun <T> Array<T>.mapToShortArray(transform: (T) -> Short): ShortArray =
-    mapTo(ShortArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to a
- * newly created [IntArray].
- */
-public inline fun <T> Array<T>.mapToIntArray(transform: (T) -> Int): IntArray = mapTo(IntArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to a
- * newly created [LongArray].
- */
-public inline fun <T> Array<T>.mapToLongArray(transform: (T) -> Long): LongArray =
-    mapTo(LongArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to a
- * newly created [FloatArray].
- */
-public inline fun <T> Array<T>.mapToFloatArray(transform: (T) -> Float): FloatArray =
-    mapTo(FloatArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element of the original array and appends the results to a
- * newly created [DoubleArray].
- */
-public inline fun <T> Array<T>.mapToDoubleArray(transform: (T) -> Double): DoubleArray =
-    mapTo(DoubleArray(this.size), transform)
 
 // mapIndexedTo
 /**
@@ -211,165 +81,13 @@ public inline fun <T> Array<T>.mapToDoubleArray(transform: (T) -> Double): Doubl
 public inline fun <T, R> Array<T>.mapIndexedTo(destination: Array<R>, transform: (i: Int, e: T) -> R): Array<R> {
     require(this.size <= destination.size) { "this.size <= target.size" }
 
-    var i = 0
-    for (element in this) {
-        destination[i++] = transform(i, element)
+    for ((i, e) in this.withIndex()) {
+        destination[i] = transform(i, e)
     }
 
     return destination
 }
 
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to the given [destination].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedTo(
-    destination: BooleanArray,
-    transform: (i: Int, e: T) -> Boolean,
-): BooleanArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-
-    var i = 0
-    for (element in this) {
-        destination[i++] = transform(i, element)
-    }
-
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to the given [destination].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedTo(destination: CharArray, transform: (i: Int, e: T) -> Char): CharArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-
-    var i = 0
-    for (element in this) {
-        destination[i++] = transform(i, element)
-    }
-
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to the given [destination].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedTo(destination: ByteArray, transform: (i: Int, e: T) -> Byte): ByteArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-
-    var i = 0
-    for (element in this) {
-        destination[i++] = transform(i, element)
-    }
-
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to the given [destination].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedTo(destination: ShortArray, transform: (i: Int, e: T) -> Short): ShortArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-
-    var i = 0
-    for (element in this) {
-        destination[i++] = transform(i, element)
-    }
-
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to the given [destination].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedTo(destination: IntArray, transform: (i: Int, e: T) -> Int): IntArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-
-    var i = 0
-    for (element in this) {
-        destination[i++] = transform(i, element)
-    }
-
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to the given [destination].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedTo(destination: LongArray, transform: (i: Int, e: T) -> Long): LongArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-
-    var i = 0
-    for (element in this) {
-        destination[i++] = transform(i, element)
-    }
-
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to the given [destination].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedTo(destination: FloatArray, transform: (i: Int, e: T) -> Float): FloatArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-
-    var i = 0
-    for (element in this) {
-        destination[i++] = transform(i, element)
-    }
-
-    return destination
-}
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to the given [destination].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedTo(
-    destination: DoubleArray,
-    transform: (i: Int, e: T) -> Double,
-): DoubleArray {
-    require(this.size <= destination.size) { "this.size <= target.size" }
-
-    var i = 0
-    for (element in this) {
-        destination[i++] = transform(i, element)
-    }
-
-    return destination
-}
-
-// mapIndexed...Array
 /**
  * Applies the given [transform] function to each element and its index in the original array and appends the
  * results to a newly created [Array].
@@ -379,86 +97,6 @@ public inline fun <T> Array<T>.mapIndexedTo(
  */
 public inline fun <T, reified R> Array<T>.mapIndexedToTypedArray(transform: (i: Int, e: T) -> R): Array<R> =
     mapIndexedTo(createArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to a newly created [BooleanArray].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedToBooleanArray(transform: (i: Int, e: T) -> Boolean): BooleanArray =
-    mapIndexedTo(BooleanArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to a newly created [CharArray].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedToCharArray(transform: (i: Int, e: T) -> Char): CharArray =
-    mapIndexedTo(CharArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to a newly created [ByteArray].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedToByteArray(transform: (i: Int, e: T) -> Byte): ByteArray =
-    mapIndexedTo(ByteArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to a newly created [ShortArray].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedToShortArray(transform: (i: Int, e: T) -> Short): ShortArray =
-    mapIndexedTo(ShortArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to a newly created [IntArray].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedToIntArray(transform: (i: Int, e: T) -> Int): IntArray =
-    mapIndexedTo(IntArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to a newly created [LongArray].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedToLongArray(transform: (i: Int, e: T) -> Long): LongArray =
-    mapIndexedTo(LongArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to a newly created [FloatArray].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedToFloatArray(transform: (i: Int, e: T) -> Float): FloatArray =
-    mapIndexedTo(FloatArray(this.size), transform)
-
-/**
- * Applies the given [transform] function to each element and its index in the original array and appends the
- * results to a newly created [DoubleArray].
- *
- * @param [transform] function that takes the index of an element and the element itself and returns the result of the
- * transform applied to the element.
- */
-public inline fun <T> Array<T>.mapIndexedToDoubleArray(transform: (i: Int, e: T) -> Double): DoubleArray =
-    mapIndexedTo(DoubleArray(this.size), transform)
 
 @PublishedApi
 @Suppress("UNCHECKED_CAST")
