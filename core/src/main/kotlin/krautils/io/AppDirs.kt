@@ -216,7 +216,7 @@ public sealed class AppDirs {
         override fun getSiteConfigDirectory(): Path = Path("/", "etc")
 
         // based on https://github.com/erayerdin/kappdirs/blob/master/src/main/kotlin/io/github/erayerdin/kappdirs/appdirs/UnixAppDirs.kt#L79
-        // the code has been cleaned up and made more "idiomatic"
+        // the functionality is the same, it's just been made more "idiomatic"
         private enum class XdgUserDirs(defaultPath: Path) {
             XDG_DOWNLOAD_DIR(Path(userHome, "Downloads")),
             XDG_DESKTOP_DIR(Path(userHome, "Desktop")),

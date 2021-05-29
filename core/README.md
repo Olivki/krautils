@@ -25,3 +25,7 @@ dependencies {
 	implementation(group = "moe.kanon.krautils", name = "krautils-core", version = "${SNAPSHOT_VERSION}")
 }
 ```
+
+## License
+The project is licensed under the Apache 2.0 license.
+- [AppDirs](./src/main/kotlin/krautils/io/AppDirs.kt) contains code adopted from [kappdirs](https://github.com/erayerdin/kappdirs/blob/master/src/main/kotlin/io/github/erayerdin/kappdirs/appdirs/UnixAppDirs.kt#L79), which is licensed under the Apache 2.0 license.
