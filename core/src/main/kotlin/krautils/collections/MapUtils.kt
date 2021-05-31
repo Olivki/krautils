@@ -16,6 +16,9 @@
 
 package krautils.collections
 
+import java.util.*
+import kotlin.NoSuchElementException
+
 /**
  * Returns the value stored under the given [key], or throws a [NoSuchElementException] where the message is the result
  * of invoking [lazyMessage].
@@ -30,3 +33,12 @@ public inline fun <K, V> Map<K, V>.getOrThrow(key: K, lazyMessage: () -> Any): V
     !in this -> throw NoSuchElementException(lazyMessage().toString())
     else -> this[key] as V
 }
+
+/**
+ * Returns a read-only view of the original map.
+ *
+ * All changes made in the original map will be reflected in the returned map.
+ *
+ * @see Collections.unmodifiableMap
+ */
+public fun <K, V> Map<K, V>.asUnmodifiableMap(): Map<K, V> = Collections.unmodifiableMap(this)
