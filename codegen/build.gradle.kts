@@ -6,6 +6,7 @@ plugins {
 }
 
 dependencies {
+    implementation(kotlin("reflect"))
     implementation(group = "com.squareup", name = "kotlinpoet", version = "1.8.0")
     implementation(group = "com.github.ajalt.clikt", name = "clikt", version = "3.1.0")
 }
