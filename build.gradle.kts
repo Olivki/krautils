@@ -26,6 +26,7 @@ subprojects {
     }
 
     mavenCentralPublish {
+        artifactId = "krautils-${project.name}"
         useCentralS01()
         singleDevGithubProject("Olivki", "krautils")
         licenseApacheV2()

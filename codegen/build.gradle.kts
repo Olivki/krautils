@@ -19,7 +19,7 @@ kotlin {
 }
 
 val coreSourceDirectory: Path by lazy {
-    project(":krautils-core").kotlin
+    project(":core").kotlin
         .sourceSets
         .main
         .get()
