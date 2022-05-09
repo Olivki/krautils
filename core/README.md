@@ -1,6 +1,6 @@
 ## core
 
-![Maven Central](https://img.shields.io/maven-central/v/net.ormr.krautils/krautils-core?label=release&style=for-the-badge) ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/net.ormr.krautils/krautils-core?label=snapshot&server=https%3A%2F%2Foss.sonatype.org&style=for-the-badge)
+![Maven Central](https://img.shields.io/maven-central/v/net.ormr.krautils/krautils-core?label=release&style=for-the-badge)
 
 Various Kotlin extension functions and data structures for easing Kotlin development.
 

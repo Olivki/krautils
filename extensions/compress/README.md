@@ -1,6 +1,6 @@
 ## compress
 
-![Maven Central](https://img.shields.io/maven-central/v/net.ormr.krautils/krautils-compress?label=release&style=for-the-badge) ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/net.ormr.krautils/krautils-compress?label=snapshot&server=https%3A%2F%2Foss.sonatype.org&style=for-the-badge)
+![Maven Central](https://img.shields.io/maven-central/v/net.ormr.krautils/krautils-compress?label=release&style=for-the-badge)
 
 Kotlin extensions for compressing/decompressing `ByteArray`s and `Path` instances.
 
