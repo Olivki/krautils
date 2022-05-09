@@ -1,4 +1,3 @@
-import name.remal.gradle_plugins.dsl.extensions.kotlin
 import java.nio.file.Path
 
 plugins {
@@ -20,7 +19,8 @@ kotlin {
 }
 
 val coreSourceDirectory: Path by lazy {
-    project(":krautils-core").sourceSets
+    project(":krautils-core").kotlin
+        .sourceSets
         .main
         .get()
         .kotlin
