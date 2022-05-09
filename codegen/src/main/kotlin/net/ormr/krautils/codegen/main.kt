@@ -23,11 +23,11 @@ import com.github.ajalt.clikt.parameters.types.path
 import java.nio.file.Path
 
 private class Codegen : CliktCommand() {
-    val sourceDir: Path by argument(help = "The source directory to generate the code into").path(
+    private val sourceDir: Path by argument(help = "The source directory to generate the code into").path(
         mustExist = true,
         canBeFile = false
     )
-    val type: Type by argument(help = "What type of code to generate.").enum(ignoreCase = true)
+    private val type: Type by argument(help = "What type of code to generate.").enum(ignoreCase = true)
 
     override fun run() {
         when (type) {
