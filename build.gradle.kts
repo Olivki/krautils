@@ -13,7 +13,7 @@ subprojects {
     apply(plugin = "me.him188.maven-central-publish")
     apply(plugin = "kotlin")
 
-    project.group = "moe.kanon.krautils"
+    project.group = "net.ormr.krautils"
 
     repositories {
         mavenCentral()
