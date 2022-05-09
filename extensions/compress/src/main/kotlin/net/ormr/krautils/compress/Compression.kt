@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Oliver Berg
+ * Copyright 2021-2022 Oliver Berg
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package krautils.compress
+package net.ormr.krautils.compress
 
 import org.apache.commons.compress.compressors.CompressorInputStream
 import org.apache.commons.compress.compressors.CompressorOutputStream
