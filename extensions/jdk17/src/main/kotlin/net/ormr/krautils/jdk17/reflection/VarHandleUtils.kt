@@ -18,7 +18,6 @@
 
 package net.ormr.krautils.jdk17.reflection
 
-import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodHandles.Lookup
 import java.lang.invoke.MethodHandles.lookup
@@ -26,7 +25,7 @@ import java.lang.invoke.VarHandle
 import java.lang.reflect.Field
 
 /**
- * Returns a [MethodHandle] pointing to `this` field.
+ * Returns a [VarHandle] pointing to `this` field.
  *
  * @see [MethodHandles.Lookup.unreflectVarHandle]
  */
